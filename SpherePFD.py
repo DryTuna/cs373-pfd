@@ -27,7 +27,7 @@ def pfd_start (r, w) :
 	edges = []
 	avail = []
 	nodes = []
-	pfd_read(r, w, nodes, totalCount, avail)
+	pfd_read (r, w, nodes, totalCount, avail)
 	
 
 def pfd_read (r, w, nodes, totalCount, avail) :
@@ -94,7 +94,7 @@ def pfd_eval(w, nodes, numDep, avail, answer, totalCount) :
 				numDep[y] -= 1
 			answerIndex += 1
 			totalCount[0] -= 1
-		pfd_addEmpties(avail, numDep, nodes)
+			pfd_addEmpties(avail, numDep, nodes)
 
 	pfd_print(w, answer)
 

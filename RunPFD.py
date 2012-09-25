@@ -2,12 +2,12 @@
 
 """
 To run the program
-% python RunCollatz.py < RunCollatz.in > RunCollatz.out
-% chmod ugo+x RunCollatz.py
-% RunCollatz.py < RunCollatz.in > RunCollatz.out
+% python RunPFD.py < RunPFD.in > RunPFD.out
+% chmod ugo+x RunPFD.py
+% RunPFD.py < RunPFD.in > RunPFD.out
 
 To document the program
-% pydoc -w Collatz
+% pydoc -w PFD
 """
 
 # -------
