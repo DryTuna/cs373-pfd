@@ -2,17 +2,16 @@
 
 from heapq import heappush, heappop
 
-totalCount = [0]
-edges = []
-avail = []
-nodes = []
-
 def pfd_start (r, w) :
 	"""
 	Read, eval, print
 	r is a reader
 	w is a writer
 	"""
+	totalCount = [0]
+	edges = []
+	avail = []
+	nodes = []
 	pfd_read(r, w, nodes, totalCount, avail)
 
 
