@@ -34,7 +34,7 @@ def pfd_solve (r, w) :
 				nodes[int(l[y])].append(vert)
 			c -= 1
 
-		pfd_eval(w, nodes, numDep, answer, n)
+		pfd_eval(nodes, numDep, answer, n)
 
 		s = r.readline()
 		if (s == "\n") :
@@ -63,7 +63,7 @@ def pfd_addEmpties (index, avail, numDep) :
 	return count
 
 					
-def pfd_eval(w, nodes, numDep, answer, n) :
+def pfd_eval(nodes, numDep, answer, n) :
 	avail = []
 	totalCount = n
 	answerIndex = 0;
