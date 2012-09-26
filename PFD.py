@@ -6,10 +6,12 @@ def pfd_solve (r, w) :
 	"""
 	reads lines of ints into their appropriate arrays
 	r is a reader
+	w is a writer to be passed on
 	nodes is a list containing lists of edges according to the number of nodes
 	avail is a list of nodes that contain no edges 
 	return true if that succeeds, false otherwise
 	"""
+	
 	s = r.readline()
 	while (s != ""):
 		l = s.split()
@@ -22,6 +24,9 @@ def pfd_solve (r, w) :
 
 		numDep = [0]*(n+1)
 		answer = [0]*n
+		
+		assert len(answer) > 0
+		assert len(numDep) > 0
 
 		while c > 0 :
 			s = r.readline()
@@ -46,9 +51,13 @@ def pfd_solve (r, w) :
 def pfd_addEmpties (index, avail, numDep) :
 	"""
 	Adds nodes with no edges to the list of available nodes
+	index is the index used to run through the array
 	avail is a list of nodes that contain no edges
 	numDep is the list containing the number of dependencies (edges) leading to each node
 	"""
+	
+	assert len(numDep) > 0
+	
 	count = 0
 	if (index == -1) :
 		for x in range (1, len(numDep)):
@@ -64,6 +73,16 @@ def pfd_addEmpties (index, avail, numDep) :
 
 					
 def pfd_eval(nodes, numDep, answer, n) :
+	"""
+	nodes is a list containing lists of edges according to the number of nodes
+	numDep is the list containing the number of dependencies (edges) leading to each node
+	answer is the array that holds the answer
+	n is the total number of nodes
+	"""
+	
+	assert n > 0
+	assert len(nodes) > 0
+	
 	avail = []
 	totalCount = n
 	answerIndex = 0;
@@ -85,6 +104,9 @@ def pfd_print(w, answer) :
 	w is a writer
 	answer is the array that holds the answer	
 	"""	
+	
+	assert len(answer) > 0
+	
 	for x in range(0, len(answer)) :
 		w.write(str(answer[x]) + " ")
 	w.write("\n\n")
