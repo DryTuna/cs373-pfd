@@ -16,10 +16,10 @@ To document the program
 
 import sys
 
-from PFD import pfd_start
+from PFD import pfd_solve
 
 # ----
 # main
 # ----
 
-pfd_start(sys.stdin, sys.stdout)
+pfd_solve(sys.stdin, sys.stdout)

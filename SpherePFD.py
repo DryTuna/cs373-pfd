@@ -17,20 +17,7 @@ import sys
 from heapq import heappush, heappop
 
 
-def pfd_start (r, w) :
-	"""
-	Read, eval, print
-	r is a reader
-	w is a writer
-	"""
-	totalCount = [0]
-	edges = []
-	avail = []
-	nodes = []
-	pfd_read (r, w, nodes, totalCount, avail)
-	
-
-def pfd_read (r, w, nodes, totalCount, avail) :
+def pfd_solve (r, w) :
 	"""
 	reads lines of ints into their appropriate arrays
 	r is a reader
@@ -38,65 +25,74 @@ def pfd_read (r, w, nodes, totalCount, avail) :
 	avail is a list of nodes that contain no edges 
 	return true if that succeeds, false otherwise
 	"""
-
 	s = r.readline()
-	if s == "" :
-		return False
-	l = s.split()
-	n = int(l[0])
-	c = int(l[1])
-	
-	nodes = {}
-	for x in range(1, n+1) :
-		nodes[int(x)] = []
-
-	numDep = [0]*(n+1)
-	answer = [0]*n
-	totalCount[0] = n
-	
-	while c > 0 :
-		s = r.readline()
+	while (s != ""):
 		l = s.split()
-		vert = int(l[0])
-		x = int(l[1])
-		numDep[vert] = x
-		temp = [0]
-		for y in range (2, len(l)):
-			nodes[int(l[y])].append(vert)
-		
-		c -= 1
+		n = int(l[0])
+		c = int(l[1])
 	
+		nodes = {}
+		for x in range(1, n+1) :
+			nodes[int(x)] = []
 
-	pfd_eval(w, nodes, numDep, avail, answer, totalCount)
-	return True
+		numDep = [0]*(n+1)
+		answer = [0]*n
+
+		while c > 0 :
+			s = r.readline()
+			l = s.split()
+			vert = int(l[0])
+			x = int(l[1])
+			numDep[vert] = x
+			temp = [0]
+			for y in range (2, len(l)):
+				nodes[int(l[y])].append(vert)
+			c -= 1
+
+		pfd_eval(w, nodes, numDep, answer, n)
+
+		s = r.readline()
+		if (s == "\n") :
+			s = r.readline()
+
+		pfd_print(w, answer)
 
 
-def pfd_addEmpties (avail, numDep, nodes) :
+def pfd_addEmpties (index, avail, numDep) :
 	"""
 	Adds nodes with no edges to the list of available nodes
 	avail is a list of nodes that contain no edges
 	numDep is the list containing the number of dependencies (edges) leading to each node
 	"""
-	for x in range (1, len(numDep)):
-		if numDep[x] == 0:
-			numDep[x] = -1
-			heappush(avail, x)
+	count = 0
+	if (index == -1) :
+		for x in range (1, len(numDep)):
+			if numDep[x] == 0:
+				numDep[x] = -1
+				heappush(avail, x)
+				count += 1
+	else :
+		numDep[index] = -1
+		heappush(avail, index)
+		count += 1
+	return count
 
 					
-def pfd_eval(w, nodes, numDep, avail, answer, totalCount) :
-	
+def pfd_eval(w, nodes, numDep, answer, n) :
+	avail = []
+	totalCount = n
 	answerIndex = 0;
-	pfd_addEmpties(avail, numDep, nodes)
-	while totalCount[0] > 0 :
+
+	while totalCount > 0 :
+		totalCount -= pfd_addEmpties(-1, avail, numDep)
 		while len(avail) > 0 :
 			answer[answerIndex] = heappop(avail)
 			for y in nodes[answer[answerIndex]]:
 				numDep[y] -= 1
+				if (numDep[y] == 0) :
+					totalCount -= pfd_addEmpties(y, avail, numDep)
 			answerIndex += 1
-			totalCount[0] -= 1
-			pfd_addEmpties(avail, numDep, nodes)
 
-	pfd_print(w, answer)
 
 def pfd_print(w, answer) :
 	"""
@@ -104,9 +100,8 @@ def pfd_print(w, answer) :
 	w is a writer
 	answer is the array that holds the answer	
 	"""	
-
 	for x in range(0, len(answer)) :
 		w.write(str(answer[x]) + " ")
+	w.write("\n\n")
 			
-			
-pfd_start(sys.stdin, sys.stdout)
+pfd_solve(sys.stdin, sys.stdout)
